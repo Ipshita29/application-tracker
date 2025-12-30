@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6fb;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form input {
+  padding: 8px;
+  width: 200px;
+}
+
+.form button {
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.board {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+}
+
+.column {
+  background: white;
+  width: 25%;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.column h3 {
+  text-align: center;
+}
+
+.card {
+  background: #eef1ff;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.card h4 {
+  margin: 0;
+}
+
+.card button {
+  margin-top: 8px;
+  width: 100%;
+  padding: 6px;
+  cursor: pointer;
+}
