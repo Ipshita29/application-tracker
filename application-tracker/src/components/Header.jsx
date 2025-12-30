@@ -1,18 +1,29 @@
-function Header({ applications }) {
-  const total = applications.length;
-  const interviews = applications.filter(
-    (app) => app.status === "Interview"
-  ).length;
-  const offers = applications.filter(
-    (app) => app.status === "Offer"
-  ).length;
+function Header({ applications, clearAll }) {applications.filter(a => a.status === "Offer").length;
 
   return (
-    <div className="header">
-      <h1>Application Tracker</h1>
-      <p>
-        Total: {total} | Interviews: {interviews} | Offers: {offers}
-      </p>
+    <div className="header hero">
+        <video
+            className="hero-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+        >
+            <source src="/video3.mp4" type="video/mp4" />
+        </video>
+      <div className="hero-overlay">
+        <div className="header-content">
+          <div className="header-left">
+            <h1>Application Tracker</h1>
+          </div>
+
+          {applications.length > 0 && (
+            <button className="reset-btn" onClick={clearAll}>
+              Reset Tracker
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
