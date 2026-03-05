@@ -1,4 +1,4 @@
-## 🎯 Project Motivation
+## Project Overview
 
 Tracking applications manually through spreadsheets or notes can quickly become overwhelming.  
 This project aims to:
@@ -9,22 +9,21 @@ This project aims to:
 
 ---
 
-## 🧩 Features
+## Features
 
-- 📋 **Stage-based tracking** of applications across:
+- **Stage-based tracking** of applications across:
   - Applied
   - Interview
   - Offer
   - Rejected
-- 📊 **Insights dashboard** summarizing application statistics to help users quickly assess progress
-- 💾 **Persistent client-side storage** using browser LocalStorage, ensuring data remains intact across page reloads
-- 🧼 **Reset tracker functionality** to clear all stored applications and start fresh
-- 🎨 Clean, modern UI with a focus on readability, visual hierarchy, and responsive layouts
-- 📱 Fully **responsive design**, optimized for both desktop and mobile screens
+- **Insights dashboard** summarizing application statistics to help users quickly assess progress
+- **Persistent client-side storage** using browser LocalStorage, ensuring data remains intact across page reloads
+- **Reset tracker functionality** to clear all stored applications and start fresh
+- Clean, modern UI with a focus on readability, visual hierarchy, and responsive layouts
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend:** React, JavaScript, HTML, CSS  
 - **Build Tool:** Vite  
@@ -33,7 +32,7 @@ This project aims to:
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 - Built using a **component-based React architecture** to ensure modularity and reusability
 - Application state is centrally managed and synchronized with LocalStorage using React hooks
@@ -42,7 +41,7 @@ This project aims to:
 
 ---
 
-## 🧠 Key Learnings
+## Key Learnings
 
 - Structuring a frontend application using **reusable React components**
 - Managing and persisting application state **without a backend**

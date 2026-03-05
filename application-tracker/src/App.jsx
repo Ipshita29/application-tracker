@@ -77,7 +77,7 @@ function App() {
         <div className="footer-meta">
           <span>Built with React</span>
           <span>•</span>
-          <span>Designed by Ipshita</span>
+          <span>Designed by Ipshita ♥︎</span>
         </div>
       </div>
     </footer>
