@@ -1,6 +1,6 @@
 import { useDraggable } from "@dnd-kit/core";
 
-function Card({ app, updateStatus, deleteApplication }) {
+function Card({ app, updateStatus, deleteApplication, toggleArchive  }) {
   const { attributes, listeners, setNodeRef, transform } =
     useDraggable({
       id: app.id,
@@ -42,6 +42,7 @@ function Card({ app, updateStatus, deleteApplication }) {
 
       {/* DELETE BUTTON */}
       <button
+        onPointerDown={(e) => e.stopPropagation()}
         onClick={() => deleteApplication(app.id)}
         style={{
           marginTop: "8px",
@@ -54,6 +55,21 @@ function Card({ app, updateStatus, deleteApplication }) {
         }}
       >
         Delete
+      </button>
+      <button
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={() => toggleArchive(app.id)}
+        style={{
+          marginTop: "8px",
+          background: "#555",
+          color: "white",
+          border: "none",
+          padding: "8px",
+          borderRadius: "8px",
+          cursor: "pointer",
+        }}
+      >
+        Archive
       </button>
     </div>
   );

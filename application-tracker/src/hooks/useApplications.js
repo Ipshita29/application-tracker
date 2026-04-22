@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 
 export default function useApplications() {
+  const toggleArchive = (id) => {
+    setApplications((prev) =>
+      prev.map((app) =>
+        app.id === id
+          ? { ...app, archived: !app.archived }
+          : app
+      )
+    );
+  };
   const [applications, setApplications] = useState(() => {
     const saved = localStorage.getItem("applications");
     return saved ? JSON.parse(saved) : [];
@@ -80,5 +89,6 @@ export default function useApplications() {
     moveApplication,
     deleteApplication,
     clearAll,
+    toggleArchive,
   };
 }

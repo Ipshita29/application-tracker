@@ -4,7 +4,7 @@ import { DndContext, useDroppable } from "@dnd-kit/core";
 const statuses = ["Applied", "Interview", "Offer", "Rejected"];
 
 // 🔹 Column component (needed for hook usage)
-function Column({ status, applications, updateStatus, deleteApplication }) {
+function Column({ status, applications, updateStatus, deleteApplication, toggleArchive }) {
   const { setNodeRef } = useDroppable({
     id: status,
   });
@@ -19,13 +19,14 @@ function Column({ status, applications, updateStatus, deleteApplication }) {
           app={app}
           updateStatus={updateStatus}
           deleteApplication={deleteApplication}
+          toggleArchive={toggleArchive}
         />
       ))}
     </div>
   );
 }
 
-function Board({ applications, updateStatus, deleteApplication }) {
+function Board({ applications, updateStatus, deleteApplication, toggleArchive }) {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -41,20 +42,21 @@ function Board({ applications, updateStatus, deleteApplication }) {
     <DndContext onDragEnd={handleDragEnd}>
       <div className="board">
         {statuses.map((status) => {
-          const filteredApps = applications.filter(
-            (app) => app.status === status
-          );
+        const filteredApps = applications.filter(
+          (app) => app.status === status && !app.archived
+        );
 
-          return (
-            <Column
-              key={status}
-              status={status}
-              applications={filteredApps}
-              updateStatus={updateStatus}
-              deleteApplication={deleteApplication}
-            />
-          );
-        })}
+        return (
+          <Column
+            key={status}
+            status={status}
+            applications={filteredApps}
+            updateStatus={updateStatus}
+            deleteApplication={deleteApplication}
+            toggleArchive={toggleArchive}
+          />
+        );
+      })}
       </div>
     </DndContext>
   );
