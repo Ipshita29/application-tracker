@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import ApplicationForm from "./components/ApplicationForm";
 import Board from "./components/Board";
 import Insights from "./components/Insights";
 import useApplications from "./hooks/useApplications";
+import HeistBoard from "./pages/HeistBoard";
+import Intel from "./pages/Intel";
+import Vault from "./pages/Vault";
 
 function App() {
   const {applications,addApplication,moveApplication,clearAll} = useApplications();
@@ -11,9 +14,23 @@ function App() {
   return (
     <div>
       <Header applications={applications} clearAll={clearAll} />
-      <Insights applications={applications} clearAll={clearAll} />
-      <ApplicationForm addApplication={addApplication} />
-      <Board applications={applications} updateStatus={moveApplication} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <HeistBoard
+              applications={applications}
+              moveApplication={moveApplication}
+              addApplication={addApplication}
+            />
+          }
+        />
+        <Route
+          path="/intel"
+          element={<Intel applications={applications} />}
+        />
+        <Route path="/vault" element={<Vault />} />
+      </Routes>
       <section className="why-section">
         <div className="why-card">
           <h2>Why Application Tracker?</h2>
