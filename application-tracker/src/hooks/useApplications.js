@@ -12,16 +12,22 @@ export default function useApplications() {
 
   const addApplication = (app) => {
     const newApp = {
-      ...app,
       id: crypto.randomUUID(),
-      status: "Applied",
-      source: app.source || "Other",
-      location: app.location || "",
-      deadline: app.deadline || "",
+      company: app.company,
+      role: app.role,
+
+      status: "Applied", // keep for now (we’ll convert later)
+
+      source: "Other",
+      location: "",
+      deadline: "",
+
       notes: "",
       archived: false,
+
       appliedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+
       activityLog: [
         {
           action: "Created",

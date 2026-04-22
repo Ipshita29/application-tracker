@@ -1,6 +1,6 @@
 import Board from "../components/Board";
 
-function HeistBoard({ applications, moveApplication, addApplication }) {
+function HeistBoard({ applications, moveApplication, addApplication, deleteApplication }) {
   return (
     <>
       <button
@@ -23,6 +23,7 @@ function HeistBoard({ applications, moveApplication, addApplication }) {
       <Board
         applications={applications}
         updateStatus={moveApplication}
+        deleteApplication={deleteApplication}
       />
     </>
   );

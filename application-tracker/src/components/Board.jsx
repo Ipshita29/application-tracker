@@ -1,30 +1,62 @@
 import Card from "./Card";
+import { DndContext, useDroppable } from "@dnd-kit/core";
 
 const statuses = ["Applied", "Interview", "Offer", "Rejected"];
 
-function Board({ applications, updateStatus }) {
+// 🔹 Column component (needed for hook usage)
+function Column({ status, applications, updateStatus, deleteApplication }) {
+  const { setNodeRef } = useDroppable({
+    id: status,
+  });
+
   return (
-    <div className="board">
-      {statuses.map((status) => {
-        const filteredApps = applications.filter(
-          (app) => app.status === status
-        );
+    <div ref={setNodeRef} className="column">
+      <h3>{status}</h3>
 
-        return (
-          <div key={status} className="column">
-            <h3>{status}</h3>
-
-            {filteredApps.map((app) => (
-              <Card
-                key={app.id}
-                app={app}
-                updateStatus={updateStatus}
-              />
-            ))}
-          </div>
-        );
-      })}
+      {applications.map((app) => (
+        <Card
+          key={app.id}
+          app={app}
+          updateStatus={updateStatus}
+          deleteApplication={deleteApplication}
+        />
+      ))}
     </div>
+  );
+}
+
+function Board({ applications, updateStatus, deleteApplication }) {
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    const id = active.id;
+    const newStatus = over.id;
+
+    updateStatus(id, newStatus);
+  };
+
+  return (
+    <DndContext onDragEnd={handleDragEnd}>
+      <div className="board">
+        {statuses.map((status) => {
+          const filteredApps = applications.filter(
+            (app) => app.status === status
+          );
+
+          return (
+            <Column
+              key={status}
+              status={status}
+              applications={filteredApps}
+              updateStatus={updateStatus}
+              deleteApplication={deleteApplication}
+            />
+          );
+        })}
+      </div>
+    </DndContext>
   );
 }
 
