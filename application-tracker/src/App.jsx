@@ -3,41 +3,17 @@ import Header from "./components/Header";
 import ApplicationForm from "./components/ApplicationForm";
 import Board from "./components/Board";
 import Insights from "./components/Insights";
+import useApplications from "./hooks/useApplications";
 
 function App() {
-  const [applications, setApplications] = useState(() => {
-    const saved = localStorage.getItem("applications");
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("applications", JSON.stringify(applications));
-  }, [applications]);
-
-  const addApplication = (app) => {
-    setApplications([...applications, app]);
-  };
-
-  const updateStatus = (id, newStatus) => {
-    setApplications(
-      applications.map((app) =>
-        app.id === id ? { ...app, status: newStatus } : app
-      )
-    );
-  };
-
-  // 🧹 CLEAR ALL
-  const clearAll = () => {
-    setApplications([]);
-    localStorage.removeItem("applications");
-  };
+  const {applications,addApplication,moveApplication,clearAll} = useApplications();
 
   return (
     <div>
       <Header applications={applications} clearAll={clearAll} />
       <Insights applications={applications} clearAll={clearAll} />
       <ApplicationForm addApplication={addApplication} />
-      <Board applications={applications} updateStatus={updateStatus} />
+      <Board applications={applications} updateStatus={moveApplication} />
       <section className="why-section">
         <div className="why-card">
           <h2>Why Application Tracker?</h2>
