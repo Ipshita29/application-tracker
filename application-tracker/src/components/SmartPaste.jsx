@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { extractIntel } from "../utils/parser";
 
 function SmartPaste({ onAdd, onClose }) {
   const [description, setDescription] = useState("");
@@ -9,9 +8,7 @@ function SmartPaste({ onAdd, onClose }) {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
+      if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -22,12 +19,36 @@ function SmartPaste({ onAdd, onClose }) {
 
     setIsLoading(true);
     setError("");
-    
+
     try {
-      const data = await extractIntel(description);
-      setParsedData(data);
+      const res = await fetch("/.netlify/functions/groq", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: description }),
+      });
+
+      const data = await res.json();
+
+      // 🔥 SAFE CHECK (important)
+      if (!data?.choices?.[0]?.message?.content) {
+        throw new Error("Invalid response from AI");
+      }
+
+      const content = data.choices[0].message.content;
+
+      let parsed;
+      try {
+        parsed = JSON.parse(content);
+      } catch {
+        throw new Error("Failed to parse AI response");
+      }
+
+      setParsedData(parsed);
     } catch (err) {
-      setError(err.message);
+      console.error(err);
+      setError(err.message || "Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -41,7 +62,7 @@ function SmartPaste({ onAdd, onClose }) {
   };
 
   const handleFieldChange = (field, value) => {
-    setParsedData(prev => ({ ...prev, [field]: value }));
+    setParsedData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -55,6 +76,7 @@ function SmartPaste({ onAdd, onClose }) {
         {!parsedData && !isLoading && (
           <div className="modal-body">
             <p>Paste job description here.</p>
+
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -62,9 +84,11 @@ function SmartPaste({ onAdd, onClose }) {
               rows={10}
               className="smart-textarea"
             />
+
             {error && <p className="error-text">{error}</p>}
+
             <button className="btn btn-primary" onClick={handleExtract}>
-              Extract Information
+              {isLoading ? "Extracting..." : "Extract Information"}
             </button>
           </div>
         )}
@@ -79,45 +103,45 @@ function SmartPaste({ onAdd, onClose }) {
         {parsedData && !isLoading && (
           <div className="modal-body">
             <p className="success-text">Intel extracted! Review and confirm.</p>
-            
+
             <div className="smart-form">
               <label>
                 Company:
-                <input 
-                  value={parsedData.company} 
-                  onChange={(e) => handleFieldChange("company", e.target.value)} 
+                <input
+                  value={parsedData.company || ""}
+                  onChange={(e) => handleFieldChange("company", e.target.value)}
                 />
               </label>
-              
+
               <label>
                 Role:
-                <input 
-                  value={parsedData.role} 
-                  onChange={(e) => handleFieldChange("role", e.target.value)} 
+                <input
+                  value={parsedData.role || ""}
+                  onChange={(e) => handleFieldChange("role", e.target.value)}
                 />
               </label>
-              
+
               <label>
                 Location:
-                <input 
-                  value={parsedData.location} 
-                  onChange={(e) => handleFieldChange("location", e.target.value)} 
+                <input
+                  value={parsedData.location || ""}
+                  onChange={(e) => handleFieldChange("location", e.target.value)}
                 />
               </label>
-              
+
               <label>
                 Deadline:
-                <input 
-                  value={parsedData.deadline} 
-                  onChange={(e) => handleFieldChange("deadline", e.target.value)} 
+                <input
+                  value={parsedData.deadline || ""}
+                  onChange={(e) => handleFieldChange("deadline", e.target.value)}
                 />
               </label>
-              
+
               <label>
                 Source:
-                <input 
-                  value={parsedData.source} 
-                  onChange={(e) => handleFieldChange("source", e.target.value)} 
+                <input
+                  value={parsedData.source || ""}
+                  onChange={(e) => handleFieldChange("source", e.target.value)}
                 />
               </label>
             </div>
