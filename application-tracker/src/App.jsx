@@ -1,93 +1,99 @@
-import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import Board from "./components/Board";
-import Insights from "./components/Insights";
 import useApplications from "./hooks/useApplications";
 import HeistBoard from "./pages/HeistBoard";
 import Intel from "./pages/Intel";
 import Vault from "./pages/Vault";
 
 function App() {
-  const {applications,addApplication,moveApplication,clearAll,deleteApplication,toggleArchive,updateApplication} = useApplications();
+  const {
+    applications,
+    addApplication,
+    moveApplication,
+    clearAll,
+    deleteApplication,
+    toggleArchive,
+    updateApplication,
+  } = useApplications();
 
   return (
-    <div>
+    <div className="app-container">
       <Header applications={applications} clearAll={clearAll} />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <HeistBoard
-              applications={applications}
-              moveApplication={moveApplication}
-              addApplication={addApplication}
-              deleteApplication={deleteApplication}
-              toggleArchive={toggleArchive}
-              updateApplication={updateApplication}
-            />
-          }
-        />
-        <Route
-          path="/intel"
-          element={<Intel applications={applications} />}
-        />
-        <Route
-        path="/vault"
-        element={
-          <Vault
-            applications={applications}
-            toggleArchive={toggleArchive}
+      <main className="main-content">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <HeistBoard
+                  applications={applications}
+                  moveApplication={moveApplication}
+                  addApplication={addApplication}
+                  deleteApplication={deleteApplication}
+                  toggleArchive={toggleArchive}
+                  updateApplication={updateApplication}
+                  clearAll={clearAll}
+                />
+                <section className="why-section">
+                  <div className="why-card">
+                    <h2>Stay in Control of Your Job Search</h2>
+
+                    <p>
+                      Managing multiple job applications can quickly become overwhelming.
+                      Keep everything organized in one place and stay focused on what matters.
+                    </p>
+
+                    <div className="why-points">
+                      <div className="why-item">
+                        <p>Track applications across every stage</p>
+                      </div>
+
+                      <div className="why-item">
+                        <p>Visualize your progress clearly</p>
+                      </div>
+
+                      <div className="why-item">
+                        <p>Stay organized without spreadsheets</p>
+                      </div>
+
+                      <div className="why-item">
+                        <p>Focus on getting interviews</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </>
+            }
           />
-        }
-      />
-      </Routes>
-      <section className="why-section">
-        <div className="why-card">
-          <h2>Why Application Tracker?</h2>
-
-          <p>
-            Applying for internships and jobs can quickly become overwhelming.
-            This tracker helps you stay organized, focused, and confident throughout
-            your application journey.
+          <Route
+            path="/intel"
+            element={<Intel applications={applications} />}
+          />
+          <Route
+            path="/vault"
+            element={
+              <Vault
+                applications={applications}
+                toggleArchive={toggleArchive}
+              />
+            }
+          />
+        </Routes>
+      </main>
+      <footer className="footer">
+        <div className="footer-content">
+          <p className="footer-title">Application Tracker</p>
+          <p className="footer-sub">
+            Track your job applications with clarity and control.
           </p>
-
-          <div className="why-points">
-            <div className="why-item">
-              <p>Track applications across every stage in one place</p>
-            </div>
-
-            <div className="why-item">
-              <p>Visualize progress instead of scrolling through spreadsheets</p>
-            </div>
-
-            <div className="why-item">
-              <p>Stay motivated by seeing interviews and offers grow</p>
-            </div>
-
-            <div className="why-item">
-              <p>Designed to mirror real-world applicant tracking systems</p>
-            </div>
+          <div className="footer-meta">
+            <span>Built with React</span>
+            <span>•</span>
+            <span>Designed by Ipshita ♥︎</span>
           </div>
         </div>
-      </section>
-      <footer className="footer">
-      <div className="footer-content">
-        <p className="footer-title">Application Tracker</p>
-        <p className="footer-sub">
-          A frontend dashboard for tracking internship & job applications
-        </p>
-
-        <div className="footer-meta">
-          <span>Built with React</span>
-          <span>•</span>
-          <span>Designed by Ipshita ♥︎</span>
-        </div>
-      </div>
-    </footer>
-
+      </footer>
     </div>
   );
 }
-
 export default App;

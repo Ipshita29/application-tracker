@@ -25,7 +25,7 @@ export default function useApplications() {
       company: app.company,
       role: app.role,
 
-      status: "Applied", // keep for now (we’ll convert later)
+      status: "Applied", 
 
       source: app.source || "Other",
       location: app.location || "",
@@ -46,6 +46,7 @@ export default function useApplications() {
     };
 
     setApplications((prev) => [...prev, newApp]);
+    return newApp.id;
   };
 
   const updateApplication = (id, field, value) => {

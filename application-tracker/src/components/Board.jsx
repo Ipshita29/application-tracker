@@ -3,7 +3,6 @@ import { DndContext, useDroppable } from "@dnd-kit/core";
 
 const statuses = ["Applied", "Interview", "Offer", "Rejected"];
 
-// 🔹 Column component (needed for hook usage)
 function Column({ status, applications, updateStatus, deleteApplication, toggleArchive, updateApplication }) {
   const { setNodeRef } = useDroppable({
     id: status,

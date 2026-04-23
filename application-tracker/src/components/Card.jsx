@@ -15,6 +15,7 @@ function Card({ app, updateStatus, deleteApplication, toggleArchive, onUpdate })
     transform: transform
       ? `translate(${transform.x}px, ${transform.y}px)`
       : undefined,
+    transition: transform ? undefined : "transform 0.2s ease, box-shadow 0.2s ease",
   };
 
   const nextStatus = {
@@ -51,13 +52,21 @@ function Card({ app, updateStatus, deleteApplication, toggleArchive, onUpdate })
     }
   };
 
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    if (window.confirm("Are you sure you want to delete this application?")) {
+      deleteApplication(app.id);
+    }
+  };
+
   return (
     <div
+      id={`app-${app.id}`}
       ref={setNodeRef}
       style={style}
       {...listeners}
       {...attributes}
-      className="card"
+      className={`card card-${app.status.toLowerCase()}`}
     >
       {/* COMPANY */}
       {editingField === "company" ? (
@@ -174,7 +183,7 @@ function Card({ app, updateStatus, deleteApplication, toggleArchive, onUpdate })
         <button
           className="btn-delete"
           onPointerDown={(e) => e.stopPropagation()}
-          onClick={() => deleteApplication(app.id)}
+          onClick={handleDelete}
         >
           Delete
         </button>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { extractIntel } from "../utils/parser";
 
 function SmartPaste({ onAdd, onClose }) {
@@ -6,6 +6,16 @@ function SmartPaste({ onAdd, onClose }) {
   const [isLoading, setIsLoading] = useState(false);
   const [parsedData, setParsedData] = useState(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
 
   const handleExtract = async () => {
     if (!description.trim()) return;
@@ -53,8 +63,8 @@ function SmartPaste({ onAdd, onClose }) {
               className="smart-textarea"
             />
             {error && <p className="error-text">{error}</p>}
-            <button className="btn-primary" onClick={handleExtract}>
-              Extract Intel
+            <button className="btn btn-primary" onClick={handleExtract}>
+              Extract Information
             </button>
           </div>
         )}
@@ -62,7 +72,7 @@ function SmartPaste({ onAdd, onClose }) {
         {isLoading && (
           <div className="modal-body loading-body">
             <div className="spinner"></div>
-            <p>Assembling the crew…</p>
+            <p>Processing the job description…</p>
           </div>
         )}
 
@@ -112,8 +122,8 @@ function SmartPaste({ onAdd, onClose }) {
               </label>
             </div>
 
-            <button className="btn-primary" onClick={handleConfirm}>
-              Confirm Heist
+            <button className="btn btn-primary" onClick={handleConfirm}>
+              Confirm Adding Job
             </button>
           </div>
         )}

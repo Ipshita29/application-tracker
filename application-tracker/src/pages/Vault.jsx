@@ -3,7 +3,7 @@ function Vault({ applications, toggleArchive }) {
 
   return (
     <div className="insights">
-      <h2>Vault (Archived)</h2>
+      <h2>Archived</h2>
 
       {archivedApps.length === 0 && <p style={{ color: "var(--text-muted)" }}>No archived applications</p>}
 
