@@ -27,9 +27,9 @@ export default function useApplications() {
 
       status: "Applied", // keep for now (we’ll convert later)
 
-      source: "Other",
-      location: "",
-      deadline: "",
+      source: app.source || "Other",
+      location: app.location || "",
+      deadline: app.deadline || "",
 
       notes: "",
       archived: false,

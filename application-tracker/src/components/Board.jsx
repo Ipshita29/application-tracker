@@ -4,7 +4,7 @@ import { DndContext, useDroppable } from "@dnd-kit/core";
 const statuses = ["Applied", "Interview", "Offer", "Rejected"];
 
 // 🔹 Column component (needed for hook usage)
-function Column({ status, applications, updateStatus, deleteApplication, toggleArchive }) {
+function Column({ status, applications, updateStatus, deleteApplication, toggleArchive, updateApplication }) {
   const { setNodeRef } = useDroppable({
     id: status,
   });
@@ -20,13 +20,14 @@ function Column({ status, applications, updateStatus, deleteApplication, toggleA
           updateStatus={updateStatus}
           deleteApplication={deleteApplication}
           toggleArchive={toggleArchive}
+          onUpdate={updateApplication}
         />
       ))}
     </div>
   );
 }
 
-function Board({ applications, updateStatus, deleteApplication, toggleArchive }) {
+function Board({ applications, updateStatus, deleteApplication, toggleArchive, updateApplication }) {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -54,6 +55,7 @@ function Board({ applications, updateStatus, deleteApplication, toggleArchive })
             updateStatus={updateStatus}
             deleteApplication={deleteApplication}
             toggleArchive={toggleArchive}
+            updateApplication={updateApplication}
           />
         );
       })}

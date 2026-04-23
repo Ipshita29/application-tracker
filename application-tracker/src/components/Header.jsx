@@ -21,14 +21,14 @@ function Header({ applications, clearAll }) {
             <h1>Application Tracker</h1>
 
             {/* ✅ ADD LINKS HERE */}
-            <div style={{ marginTop: "10px" }}>
-              <Link to="/" style={{ marginRight: "15px" }}>
+            <div className="nav-links">
+              <Link to="/" className="nav-link">
                 Board
               </Link>
-              <Link to="/intel" style={{ marginRight: "15px" }}>
+              <Link to="/intel" className="nav-link">
                 Insights
               </Link>
-              <Link to="/vault">
+              <Link to="/vault" className="nav-link">
                 Vault
               </Link>
             </div>

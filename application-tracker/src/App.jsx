@@ -9,7 +9,7 @@ import Intel from "./pages/Intel";
 import Vault from "./pages/Vault";
 
 function App() {
-  const {applications,addApplication,moveApplication,clearAll,deleteApplication,toggleArchive} = useApplications();
+  const {applications,addApplication,moveApplication,clearAll,deleteApplication,toggleArchive,updateApplication} = useApplications();
 
   return (
     <div>
@@ -24,6 +24,7 @@ function App() {
               addApplication={addApplication}
               deleteApplication={deleteApplication}
               toggleArchive={toggleArchive}
+              updateApplication={updateApplication}
             />
           }
         />

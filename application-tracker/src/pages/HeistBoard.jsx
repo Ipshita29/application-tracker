@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Board from "../components/Board";
+import SmartPaste from "../components/SmartPaste";
 
 function HeistBoard({
   applications,
@@ -7,9 +8,11 @@ function HeistBoard({
   addApplication,
   deleteApplication,
   toggleArchive,
+  updateApplication,
 }) {
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
+  const [isSmartPasteOpen, setIsSmartPasteOpen] = useState(false);
 
   const handleAdd = () => {
     if (!company || !role) return;
@@ -26,25 +29,40 @@ function HeistBoard({
   return (
     <>
       {/* ✅ MANUAL INPUT FORM */}
-      <div style={{ margin: "20px" }}>
+      <div className="form">
         <input
           placeholder="Company"
           value={company}
           onChange={(e) => setCompany(e.target.value)}
-          style={{ marginRight: "10px", padding: "8px" }}
         />
 
         <input
           placeholder="Role"
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          style={{ marginRight: "10px", padding: "8px" }}
         />
 
         <button onClick={handleAdd}>
-          Add
+          Add Application
+        </button>
+
+        <button 
+          className="smart-paste-btn" 
+          onClick={() => setIsSmartPasteOpen(true)}
+        >
+          ✨ Smart Paste
         </button>
       </div>
+
+      {isSmartPasteOpen && (
+        <SmartPaste 
+          onAdd={(data) => {
+            addApplication(data);
+            setIsSmartPasteOpen(false);
+          }} 
+          onClose={() => setIsSmartPasteOpen(false)} 
+        />
+      )}
 
       {/* BOARD */}
       <Board
@@ -52,6 +70,7 @@ function HeistBoard({
         updateStatus={moveApplication}
         deleteApplication={deleteApplication}
         toggleArchive={toggleArchive}
+        updateApplication={updateApplication}
       />
     </>
   );
