@@ -15,55 +15,48 @@ function SmartPaste({ onAdd, onClose }) {
   }, [onClose]);
 
   const handleExtract = async () => {
-    if (!description.trim()) return;
+      if (!description.trim()) return;
 
-    setIsLoading(true);
-    setError("");
+      setIsLoading(true);
+      setError("");
 
-    try {
-      const res = await fetch("/.netlify/functions/groq", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: description }),
-      });
-
-      const data = await res.json();
-
-      // 🔥 HANDLE API ERRORS
-      if (!data || data.error) {
-        throw new Error(data?.error || "API error");
-      }
-
-      if (!data?.choices?.length) {
-        throw new Error("No response from AI");
-      }
-
-      const content = data.choices[0].message.content;
-
-      // 🔥 CLEAN JSON EXTRACTION
-      const jsonMatch = content.match(/\{[\s\S]*\}/);
-
-      if (!jsonMatch) {
-        throw new Error("AI did not return valid JSON");
-      }
-
-      let parsed;
       try {
-        parsed = JSON.parse(jsonMatch[0]);
-      } catch {
-        throw new Error("Failed to parse AI JSON");
-      }
+        const res = await fetch("/.netlify/functions/groq", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: description }),
+        });
 
-      setParsedData(parsed);
-    } catch (err) {
-      console.error(err);
-      setError(err.message || "Something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        const data = await res.json();
+
+        // 🔥 Proper error handling
+        if (!res.ok) {
+          throw new Error(data.error || "Request failed");
+        }
+
+        if (!data.content) {
+          throw new Error("No response from AI");
+        }
+
+        // 🔥 Extract JSON safely
+        const match = data.content.match(/\{[\s\S]*\}/);
+
+        if (!match) {
+          throw new Error("Invalid AI format");
+        }
+
+        const parsed = JSON.parse(match[0]);
+
+        setParsedData(parsed);
+      } catch (err) {
+        console.error(err);
+        setError(err.message || "Something went wrong");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
   const handleConfirm = () => {
     if (parsedData) {

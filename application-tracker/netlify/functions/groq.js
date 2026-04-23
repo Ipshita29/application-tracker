@@ -14,8 +14,7 @@ export async function handler(event) {
           {
             role: "system",
             content: `
-You must return ONLY valid JSON.
-Do NOT include any text outside JSON.
+Return ONLY valid JSON. No extra text.
 
 Format:
 {
@@ -36,15 +35,28 @@ Format:
 
     const data = await res.json();
 
+    // 🔥 Handle API errors properly
+    if (!res.ok) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: data?.error?.message || "Groq API failed",
+        }),
+      };
+    }
+
     return {
       statusCode: 200,
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        success: true,
+        content: data.choices?.[0]?.message?.content || "",
+      }),
     };
   } catch (err) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: err.message,
+        error: err.message || "Server error",
       }),
     };
   }
