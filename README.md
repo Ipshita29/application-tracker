@@ -1,50 +1,105 @@
-## Project Overview
+# Application Tracker
 
-Tracking applications manually through spreadsheets or notes can quickly become overwhelming.  
-This project aims to:
-
-- Provide a **clear visual overview** of application progress
-- Reduce cognitive load by organizing applications into defined stages
-- Demonstrate practical frontend skills such as **state management, persistence, and component-based design**
+A modern, interactive dashboard to track internship and job applications with ease.  
+Built with React and enhanced with AI-powered job description parsing.
 
 ---
 
 ## Features
 
-- **Stage-based tracking** of applications across:
+### Application Board
+- Track applications across stages:
   - Applied
   - Interview
   - Offer
   - Rejected
-- **Insights dashboard** summarizing application statistics to help users quickly assess progress
-- **Persistent client-side storage** using browser LocalStorage, ensuring data remains intact across page reloads
-- **Reset tracker functionality** to clear all stored applications and start fresh
-- Clean, modern UI with a focus on readability, visual hierarchy, and responsive layouts
+- Drag & drop between stages
+- Inline editing for quick updates
+- Delete and archive functionality
+
+---
+
+### Smart Paste (AI Feature)
+- Paste any job description
+- Automatically extracts:
+  - Company
+  - Role
+  - Location
+  - Source
+- Powered by Groq API via secure backend
+
+---
+
+### Search & Filters
+- Search by company or role
+- Filter by application status
+
+---
+
+### Vault (Archive System)
+- Archive old applications
+- Restore anytime
+
+---
+
+### Insights Page
+- Visual overview of your job search progress
+- Helps track performance and motivation
+
+---
+
+### UI/UX
+- Clean, responsive design
+- Subtle animations and hover effects
+- Dark mode support
+- Sticky footer layout
 
 ---
 
 ## Tech Stack
 
-- **Frontend:** React, JavaScript, HTML, CSS  
-- **Build Tool:** Vite  
-- **State Persistence:** Browser LocalStorage  
-- **Deployment:** Netlify  
+- **Frontend:** React (Vite)
+- **State Management:** Custom Hooks
+- **Drag & Drop:** @dnd-kit
+- **Backend:** Netlify Functions
+- **AI Integration:** Groq API
+- **Deployment:** Netlify
 
 ---
 
-## Architecture Overview
+## Environment Variables
 
-- Built using a **component-based React architecture** to ensure modularity and reusability
-- Application state is centrally managed and synchronized with LocalStorage using React hooks
-- UI components such as headers, forms, boards, columns, cards, and insights are separated for clarity and scalability
-- Designed as a **Single Page Application (SPA)** with client-side rendering
+Create a variable in Netlify:
+
+```env
+GROQ_API_KEY=your_api_key_here
+
+⚠️ Do NOT expose API keys in frontend code.
+
+---
+
+## Project Structure
+
+application-tracker/
+├── netlify/functions/   # Serverless backend
+│   └── groq.js
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── hooks/
+│   └── ...
+├── public/
+├── package.json
 
 ---
 
-## Key Learnings
+## Getting Started (Local)
 
-- Structuring a frontend application using **reusable React components**
-- Managing and persisting application state **without a backend**
-- Designing dashboard-style UIs with a focus on **user experience**
+# Clone repo
+git clone https://github.com/your-username/application-tracker.git
 
----
+# Install dependencies
+npm install
+
+# Run dev server
+npm run dev
