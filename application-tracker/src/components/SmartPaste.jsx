@@ -31,18 +31,29 @@ function SmartPaste({ onAdd, onClose }) {
 
       const data = await res.json();
 
-      // 🔥 SAFE CHECK (important)
-      if (!data?.choices?.[0]?.message?.content) {
-        throw new Error("Invalid response from AI");
+      // 🔥 HANDLE API ERRORS
+      if (!data || data.error) {
+        throw new Error(data?.error || "API error");
+      }
+
+      if (!data?.choices?.length) {
+        throw new Error("No response from AI");
       }
 
       const content = data.choices[0].message.content;
 
+      // 🔥 CLEAN JSON EXTRACTION
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+
+      if (!jsonMatch) {
+        throw new Error("AI did not return valid JSON");
+      }
+
       let parsed;
       try {
-        parsed = JSON.parse(content);
+        parsed = JSON.parse(jsonMatch[0]);
       } catch {
-        throw new Error("Failed to parse AI response");
+        throw new Error("Failed to parse AI JSON");
       }
 
       setParsedData(parsed);
@@ -126,14 +137,6 @@ function SmartPaste({ onAdd, onClose }) {
                 <input
                   value={parsedData.location || ""}
                   onChange={(e) => handleFieldChange("location", e.target.value)}
-                />
-              </label>
-
-              <label>
-                Deadline:
-                <input
-                  value={parsedData.deadline || ""}
-                  onChange={(e) => handleFieldChange("deadline", e.target.value)}
                 />
               </label>
 

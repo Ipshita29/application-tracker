@@ -13,8 +13,18 @@ export async function handler(event) {
         messages: [
           {
             role: "system",
-            content:
-              "Extract job info as JSON with keys: company, role, location, source",
+            content: `
+You must return ONLY valid JSON.
+Do NOT include any text outside JSON.
+
+Format:
+{
+  "company": "",
+  "role": "",
+  "location": "",
+  "source": ""
+}
+`,
           },
           {
             role: "user",
@@ -33,7 +43,9 @@ export async function handler(event) {
   } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
+      body: JSON.stringify({
+        error: err.message,
+      }),
     };
   }
 }
